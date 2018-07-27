@@ -9,12 +9,12 @@ import javax.imageio.ImageIO;
 
 public class Binarize{
 
-	public static BufferedImage getImagen(int[] pixels){
+	public static BufferedImage getImagen(int[] pixels, int w, int h){
 
-		BufferedImage img=new BufferedImage(28, 28, BufferedImage.TYPE_BYTE_BINARY);
+		BufferedImage img=new BufferedImage(w, h, BufferedImage.TYPE_BYTE_BINARY);
 		for(int i=0;i<img.getHeight();i++){
 			for(int j=0;j<img.getWidth();j++){
-				img.setRGB(j, i, pixels[i*2048+j]);
+				img.setRGB(j, i, pixels[i*w+j]);
 			}
 		}
 		return img;
@@ -29,10 +29,10 @@ public class Binarize{
 		for(int i=0;i<a.getHeight();i++) {
 			for(int j=0; j<a.getWidth();j++) {
 				Color pixel = new Color(a.getRGB(j,i));
-				if(pixel.getBlue()==255 && pixel.getRed()==255 && pixel.getGreen()==255) {
-					pixels[i*a.getWidth()+j]=rgbBlanco;
-				}else{
+				if(pixel.getBlue()>217 && pixel.getRed()>217 && pixel.getGreen()>217) {
 					pixels[i*a.getWidth()+j]=rgbNegro;
+				}else{
+					pixels[i*a.getWidth()+j]=rgbBlanco;
 				}
 			}
 		}
@@ -40,9 +40,11 @@ public class Binarize{
 	}
 
 	public static void main(String[] args) throws IOException {
-		File outputfile=new File("/home/oquendo/Desktop/Proyecto3/images/At_100x100_iconjake.jpg");
-		BufferedImage image = ImageIO.read(outputfile);	
+		File inputfile=new File("path");
+		BufferedImage image = ImageIO.read(inputfile);	
 		int pixels[] = Binarize.Initialize(image);
+		BufferedImage output=getImagen(pixels, image.getWidth(), image.getHeight());
+		ImageIO.write(output, "png", new File ("path"));
 		
 	}
 }
