@@ -39,13 +39,10 @@ public class Binarize{
 		return pixels;
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		File outputfile=new File("/home/oquendo/Desktop/Proyecto3/images/At_100x100_iconjake.jpg");
-		BufferedImage image = ImageIO.read(outputfile);
-		try {
-			int pixels[] = Binarize.Initialize(image);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		BufferedImage image = ImageIO.read(outputfile);	
+		int pixels[] = Binarize.Initialize(image);
+		
 	}
 }
