@@ -4,10 +4,14 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
+import java.util.LinkedList;
+import java.util.Queue;
 import javax.imageio.ImageIO;
 
 public class ImageManagement {
+	
+	private static Color myWhite = Color.WHITE;
+	private static Color myBlack = Color.WHITE;
 
 	public static BufferedImage makeImage(int[] pixels, int w, int h) {
 		BufferedImage img = new BufferedImage(w, h, BufferedImage.TYPE_BYTE_BINARY);
@@ -81,14 +85,6 @@ public class ImageManagement {
 	}
 	
 	public static void getDivitions(BufferedImage a) throws IOException {
-		
-		
-		Color myWhite=Color.WHITE;
-		Color myBlack=Color.BLACK;
-		Color myRed=Color.RED;
-		int rgbBlanco=myWhite.getRGB();
-		int rgbNegro=myBlack.getRGB();
-		int rgbRojo=myRed.getRGB();
 		Queue<Integer>dH=new LinkedList<Integer>();
 		Queue<Integer>dV=new LinkedList<Integer>();
 		boolean x=true;
@@ -96,10 +92,9 @@ public class ImageManagement {
 			boolean y=x;
 			if(x) {
 				for(int j=0;j<a.getWidth();j++) {
-					if(a.getRGB(j, i)==rgbNegro) {
+					if(a.getRGB(j, i)==myBlack.getRGB()) {
 						x=!x;
 						j=a.getHeight();
-						
 					}
 				}
 				if(x!=y) {
@@ -108,21 +103,16 @@ public class ImageManagement {
 			}else {
 				x=!x;
 				for(int j=0;j<a.getWidth();j++) {
-					if(a.getRGB(j, i)==rgbNegro) {
+					if(a.getRGB(j, i)==myBlack.getRGB()) {
 						x=!x;
 						j=a.getHeight();
-						
 					}
 				}
 				if(x!=y) {
 					dH.add(i+2);
 				}
 			}
-			
-			
-			
 		}
-		
 		BufferedImage l[]=new BufferedImage[dH.size()/2];
 		int cont=0;
 		for(int i=0;i<l.length;i++) {
@@ -132,10 +122,9 @@ public class ImageManagement {
 				boolean y=x;
 				if(x) {
 					for(int j=0;j<l[i].getHeight();j++) {
-						if(l[i].getRGB(k, j)==rgbNegro) {
+						if(l[i].getRGB(k, j)==myBlack.getRGB()) {
 							x=!x;
 							j=a.getHeight();
-							
 						}
 					}
 					if(x!=y) {
@@ -144,10 +133,9 @@ public class ImageManagement {
 				}else {
 					x=!x;
 					for(int j=0;j<l[i].getHeight();j++) {
-						if(l[i].getRGB(k, j)==rgbNegro) {
+						if(l[i].getRGB(k, j)==myBlack.getRGB()) {
 							x=!x;
 							j=a.getHeight();
-							
 						}
 					}
 					if(x!=y) {
@@ -157,17 +145,13 @@ public class ImageManagement {
 			}
 			while(!dV.isEmpty()) {
 				BufferedImage aux=l[i].getSubimage(dV.peek(), 0, -dV.poll()+dV.poll(), l[i].getHeight());
-				ImageIO.write(redimencion(aux,32), "png", new File ("C:/Users/pgmpa/eclipse-workspace/Proyecto3/data/Imagenes/c/output"+cont+".png"));
+				ImageIO.write(redimention(aux,32), "png", new File ("C:/Users/pgmpa/eclipse-workspace/Proyecto3/data/Imagenes/c/output"+cont+".png"));
 				cont++;
-			}
-			
-			
+			}			
 		}	
-		
 	}
-	
-	
-	public static BufferedImage redimencion(BufferedImage a, int n) {
+		
+	public static BufferedImage redimention(BufferedImage a, int n) {
 		BufferedImage temp=new BufferedImage(n, n, BufferedImage.TYPE_BYTE_BINARY);
 		boolean v=true;
 		boolean h=true;
@@ -177,8 +161,6 @@ public class ImageManagement {
 				temp.setRGB(i, j, Color.WHITE.getRGB());
 			}
 		}
-		
-		
 		if(a.getWidth()<=n) {
 			V1=(n-a.getWidth())/2;
 		}else {
@@ -219,7 +201,6 @@ public class ImageManagement {
 			}
 			h=false;
 		}
-		
 		if(v&&h) {
 			for(int i=V1;i<a.getWidth()+V1;i++) {
 				for(int j=H1;j<a.getHeight()+H1;j++) {
@@ -245,14 +226,8 @@ public class ImageManagement {
 				}
 			}
 		}
-		
-		
-		
-		
 		return temp;
-		
 	}
-	
 	
 	public static int count(BufferedImage a, int p, boolean f) {
 		int ans=0;
@@ -272,12 +247,6 @@ public class ImageManagement {
 		return ans;
 	}
 	
-	
-	
-	
-	
-	
-
 	public static void main(String[] args) throws IOException {
 		//Main de Binarize
 		File inputfile=new File("path");
